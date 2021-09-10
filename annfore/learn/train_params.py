@@ -1,10 +1,12 @@
-from learn.train import fill_res, make_training_step, create_res_dict, save_results_df
-from learn.opt import make_opt
-import learn.l_utils as learn_utils
+import time
+
 import torch
 import numpy as np
-import pandas as pd
-import time
+#import pandas as pd
+
+from .train import fill_res, make_training_step, create_res_dict, save_results_df
+from .opt import make_opt
+from .  import l_utils as learn_utils
 
 def print_step(res,
                name_file="log",
