@@ -149,3 +149,19 @@ def sort_I(M, t=0, ):
         M_I = M[:, t, 1]
     prob, index = M_I.sort(descending=True)
     return torch.stack((prob, index.type(prob.type())), dim=1).squeeze()
+
+
+
+def make_beta_train_exp(nbeta, curv:int = 3, max_x:int=1):
+    """
+    Make exponential-like curve that ends linearly in 1
+    """
+    fin_exp = max_x-1/curv
+
+    nexp = int(np.ceil(fin_exp*nbeta/max_x))
+
+    b1 = (1-np.exp(-np.linspace(0,fin_exp, nexp)*curv))
+
+    b2 = np.linspace(b1[-1],1, nbeta-nexp+1)[1:]
+
+    return np.concatenate((b1,b2))
