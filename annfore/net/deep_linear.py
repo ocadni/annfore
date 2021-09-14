@@ -205,23 +205,13 @@ class MaskedDeepLinear(deep_linear):
         else:
             self.no_out = False
             self.out_count = out_count
-            n_lay_want = len(hidden_feat)
-            base_pow = (dim_input/out_count)**(1/n_lay_want)
-            #if base_pow == 0.:
-            """ 
-            #Calculate layers exponentially
-            if dim_input == 0:
-            # just bias
-                features = [dim_input, out_count, out_count]
-            elif base_pow == 1.:# or dim_input == 0:
-                features = [dim_input]+[out_count]*(n_lay_want+1)
+            
+            feat_inp = np.array(hidden_feat)
+            if np.all(feat_inp < 0) or dim_input==0:
+                n_lay_want = len(hidden_feat)
+                features = calc_feat_power(dim_input, out_count, n_lay_want, power=scale_power)
             else:
-                nlayers = np.log(dim_input/out_count) / np.log(base_pow)
-                hidden_layers = (base_pow**np.linspace(1,nlayers,int(np.ceil(nlayers))+1)*out_count)[::-1]
-                features = list(hidden_layers.astype(int))+[out_count]
-                features[0] = dim_input
-            """
-            features = calc_feat_power(dim_input, out_count, n_lay_want, power=scale_power)
+                features = [dim_input]+(feat_inp*dim_input).astype(int).tolist()+[out_count]
             
         self.features = tuple(features)
         super().__init__(features, bias, in_func, last_func)
