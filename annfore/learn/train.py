@@ -239,9 +239,10 @@ def save_results_df(results, marginals, name_file):
     
     results_pd = results_pd.transpose()
     
-    results_pd.to_csv(name_file+".gz")
+    results_pd.to_csv(name_file+"_trace.gz")
     #pd.DataFrame(margs_out).to_csv(name_file+"_M.gz")
-    np.savez_compressed(name_file+"_margs.npz",marginals=margs_out, sources=psrc_hist)
+    np.savez_compressed(name_file+"_margs.npz",marginals=margs_out)
+    np.savez_compressed(name_file+"_stats.npz",sources=psrc_hist)
 
 # TODO: Write a new method for the SIR General case
 
