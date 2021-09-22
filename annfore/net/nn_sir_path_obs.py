@@ -220,9 +220,9 @@ class SIRPathColdObs(common_net.Autoreg):
         return log_prob.sum(-1).sum(-1)
 
     def _get_trec_probs(self, i, samples_inf, inf_idx_times, batch_size):
-        out_inf = self.sublayers[i][0].out_count
-        if out_inf > 0:
-            t_inf_hot = F.one_hot(inf_idx_times,out_inf).view(batch_size, -1)
+        n_out_inf = self.sublayers[i][0].out_count
+        if n_out_inf > 0:
+            t_inf_hot = F.one_hot(inf_idx_times,n_out_inf).view(batch_size, -1)
 
             t_rec_probs = self.sublayers[i][1](torch.cat((samples_inf, t_inf_hot.to(self.dtype)),dim=-1))
         else:
@@ -253,7 +253,7 @@ class SIRPathColdObs(common_net.Autoreg):
             if self.sublayers[i][0].out_count ==0:
                 ##avoid random draw
                 with torch.no_grad():
-                    idx_times=torch.ones((batch_size, 1), device=self.device, dtype=samples.dtype)
+                    idx_times = None
                     samples[:, indix, 0] = self.sublayers[i][0].index_out[0]
                 probs[:,indix,0] = 1.
             else:
