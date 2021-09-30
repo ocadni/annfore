@@ -194,8 +194,20 @@ def train_beta_params(net,
                      print_log=True,
                      max_num_print=100,
                      save_every = 10,
-                     clip_grad = None
+                     clip_grad = None,
+                     beta_start_learn=0.5
                      ):
+    lamb_param_zero, lamb_opt_zero = opt_param_init(model, 
+                                      param_init=params[0].clone().detach(), 
+                                      name="lamb", dtype=params[0].dtype, device=params[0].device, lr=0)
+    mu_param_zero, mu_opt_zero = opt_param_init(model, 
+                                              param_init=params[1].clone().detach(),
+                                                dtype=params[1].dtype, 
+                                                device=params[1].device,
+                                                name="mu", lr=0)
+    params_zero=[lamb_param_zero, mu_param_zero]
+    opt_params_zero = [lamb_opt_zero, mu_opt_zero]
+
 
     '''# "touch" file
     if print_log:
@@ -215,7 +227,10 @@ def train_beta_params(net,
                 num_samples, loss, optimizer, clip_grad = clip_grad, net = net)
             start_time = time.time()
             max_grad = 0
-            learn_params(model, samples, params, opt_params, loss_info["log_prob_q"])
+            if beta > beta_start_learn:
+                learn_params(model, samples, params, opt_params, loss_info["log_prob_q"])
+            else:
+                learn_params(model, samples, params_zero, opt_params_zero, loss_info["log_prob_q"])
             M = net.marginals_(samples)
             results = fill_res(i_b+last_step, beta, T_obs, model, M, loss_info, max_grad, results)
             took_time = time.time() - start_time
