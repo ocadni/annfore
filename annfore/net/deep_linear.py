@@ -123,25 +123,20 @@ class deep_linear(nn.Module):
     """
 
     def __init__(self, features, bias, in_func=nn.ReLU(),
-                 last_func=nn.Sigmoid()):
+                 last_func=nn.Sigmoid(), layer_norm=False):
         super(deep_linear, self).__init__()
         layers = []
         if features[-1] == 0:
             # this is an empty net
             return
         for feat_i, feat in enumerate(features[:-1]):
-            """
-            Code analysis: features is a list of 2 elements,
-            therefore feat_i = 0 only, so far, and in_feat=features[0]
-            Also, feat_i + 1 = 1, and even more the accessed
-            element is always equal to q (=1 in the SI)
 
-            This may change in the future
-            """
             in_feat = feat
             out_feat = features[feat_i + 1]
             mbias = True if (in_feat==0 and out_feat > 0) else bias
             layers.append(my_linear(in_feat, out_feat, mbias))
+            if layer_norm and in_feat > 0 and feat_i < len(features)-2:
+                layers.append(nn.LayerNorm([out_feat]))
             # layers[-1].apply(weights_init_uniform_rule)
 
             layers.append(in_func)
@@ -184,7 +179,7 @@ class MaskedDeepLinear(deep_linear):
     """
 
     def __init__(self, dim_input, hidden_feat, mask, bias, in_func=nn.ReLU(),
-                 last_func=nn.Sigmoid(), scale_power=2.):
+                 last_func=nn.Sigmoid(), scale_power=2., layer_norm=False):
         """
         mask is a 1D tensor
         """
@@ -214,7 +209,7 @@ class MaskedDeepLinear(deep_linear):
                 features = [dim_input]+(feat_inp*dim_input).astype(int).tolist()+[out_count]
             
         self.features = tuple(features)
-        super().__init__(features, bias, in_func, last_func)
+        super().__init__(features, bias, in_func, last_func, layer_norm=layer_norm)
 
     def forward(self, x):
         """

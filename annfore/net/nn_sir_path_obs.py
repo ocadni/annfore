@@ -64,6 +64,7 @@ class SIRPathColdObs(common_net.Autoreg):
                 device="cpu",
                 dtype=torch.float,
                 lin_scale_power:float=2.,
+                layer_norm:bool=False,
                 ):
         """
         Observations have to be in a list of values
@@ -93,6 +94,7 @@ class SIRPathColdObs(common_net.Autoreg):
         self.dtype = dtype
         self.min_value_prob = min_value_prob
         self.linear_net_scaling = lin_scale_power
+        self.layer_norm = layer_norm
 
         self.masks = torch.tensor(
             make_masks(obs_list, self.N, self.T)
@@ -164,11 +166,13 @@ class SIRPathColdObs(common_net.Autoreg):
         for neig in self.true_neighs[idx]:
             n_input += self.sublayers[int(neig)][0].out_count
             n_input += self.sublayers[int(neig)][1].out_count
+
+        kwargs = dict(scale_power=scale_power, layer_norm=self.layer_norm)
         net_inf = deep_linear.MaskedDeepLinear(n_input, layer_spec, self.masks[idx][0],
-            bias, in_func, last_func, scale_power=scale_power)
+            bias, in_func, last_func, **kwargs)
         n_input_rec = n_input + net_inf.out_count
         net_rec = deep_linear.MaskedDeepLinear(n_input_rec, layer_spec, self.masks[idx][1],
-            bias, in_func, last_func, scale_power=scale_power)
+            bias, in_func, last_func, **kwargs)
         
         return nn.ModuleList((net_inf,net_rec))
 
