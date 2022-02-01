@@ -6,7 +6,7 @@ ANNforE, in the same time, can infer the parameters of the propagation model (li
 
 The apporach is based on the autoregressive probability apporoximation of the postieror probability of the inference problem. See the [work](https://arxiv.org/abs/2111.03383).
 
-# setup
+## setup
 
 Clone the repo and type: 
 ```
@@ -14,11 +14,11 @@ cd annfore
 pip install .
 ```
 
-# run
+## run
 
 See [example](annfore/examples/first_test.ipynb) 
 
-# to cite this repository
+### to cite this repository
 
 Biazzo, I., Braunstein, A., Dall'Asta, L. and Mazza, F., 2021. Epidemic inference through generative neural networks. arXiv preprint [arXiv:2111.03383](https://arxiv.org/abs/2111.03383).
 
