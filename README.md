@@ -8,9 +8,15 @@ The apporach is based on the autoregressive probability apporoximation of the po
 
 # setup
 
+Clone the repo and type: 
+```
+cd annfore 
+pip install .
+```
 
 # run
 
+See [example](annfore/examples/first_test.ipynb) 
 
 # to cite this repository
 
