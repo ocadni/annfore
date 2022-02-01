@@ -4,7 +4,7 @@ Autoregressive neural network approach to solve epidemic inference problems, lik
 ANNforE can compute the probability to each individuals to be susceptible, infected or recovered at a given time from a list of contacts and partial observations.
 ANNforE, in the same time, can infer the parameters of the propagation model (like the probability of infection <span>&lambda;</span>).
 
-The apporach is based on the autoregressive probability apporoximation of hte postieror probability of the inference problem. See the [work](https://arxiv.org/abs/2111.03383).
+The apporach is based on the autoregressive probability apporoximation of the postieror probability of the inference problem. See the [work](https://arxiv.org/abs/2111.03383).
 
 # setup
 
