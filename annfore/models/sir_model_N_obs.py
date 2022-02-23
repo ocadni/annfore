@@ -186,12 +186,13 @@ class SirModel(commod.EnergyModel):
             for q in range(self.q):
                 self.log_obs[n_obs, t_obs, q] = 1 - int(q == q_obs)
             
-    def _set_p_source(self, p_source):
+    def _set_p_source(self, p_source, p_rec_div=1):
         """
         Set the P_source for the single source constraint
         """
         self.p_source = p_source
         self.p_S_fin = (1-p_source)*self.p_sus
+        self.p_rec_div = p_rec_div
         self.p_infect_fin = (1-p_source)* (1-self.p_sus)
 
         return True
@@ -200,7 +201,9 @@ class SirModel(commod.EnergyModel):
         """
         Set the log-p values
         """
-        self._logp_src = self._log_lim(self.p_source)
+        #self._logp_src = self._log_lim(self.p_source)
+        self._logp_I0 = self._log_lim(self.p_source)
+        self._logp_R0 = self._log_lim(self.p_source/(self.p_rec_div))
         self._logp_S_fin = self._log_lim(self.p_S_fin)
         self._logp_inf_fin = self._log_lim(self.p_infect_fin)
 
@@ -257,7 +260,8 @@ class SirModel(commod.EnergyModel):
         #log_P_sources = torch.log(sources * self.p_source
         #            + S_final * self.p_S_fin
         #            + infec_rec_f * self.p_infect_fin)
-        log_P_sources = (sources * self._logp_src
+        log_P_sources = (I[:,0] * self._logp_I0
+                    + R[:,0] * self._logp_R0 
                     + S_final * self._logp_S_fin
                     + infec_rec_f * self._logp_inf_fin)
         log_p_extra = self._log_pextra_i(node_i, S, I, R)
