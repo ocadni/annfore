@@ -1,8 +1,10 @@
 # ANNFORE: [A]utoregressive [N]eural [N]etworks [FOR] [E]pidemics inference problems
 
-This repository contains the code for our Autoregressive neural network approach to solve epidemic inference problems. Up until now there is support for the SIR compartimental model on contact graph, more complicated compartimental model can be added.
+The repository contains the code for an autoregressive neural network approach to solve epidemic inference problems on contact newtorks. The patient zero problems, risk assmement or the inference of the infectivity of class of individuals are important examples.
 
-ANNforE can compute the probability to each individuals to be susceptible, infected or recovered at a given time from a list of contacts and partial observations.
+Up until now ANNFORE supports the SIR compartimental model on contact networks, more complicated compartimental model can be easly added.
+
+ANNFORE can compute the probability to each individuals to be susceptible, infected or recovered at a given time from a list of contacts and partial observations.
 At the same time, it can infer the parameters of the propagation model (like the probability of infection <span>&lambda;</span>).
 
 The approach is based on the autoregressive probability apporoximation of the postieror probability of the inference problem. See [here](https://arxiv.org/abs/2111.03383) for more details.
@@ -17,7 +19,7 @@ pip install .
 
 ## Examples to run
 
-See [example](annfore/examples/first_test.ipynb) 
+See [example](./annfore/examples/first_test.ipynb) 
 
 ## Reference
 If you use the repository, please cite: 
