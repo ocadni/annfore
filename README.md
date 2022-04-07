@@ -19,7 +19,7 @@ pip install .
 
 ## Examples to run
 
-See [example](./annfore/examples/first_test.ipynb) 
+See [example](./annfore/examples/first_example.ipynb) 
 
 ## Reference
 If you use the repository, please cite: 
