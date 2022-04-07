@@ -1,4 +1,4 @@
-# ANFORE: [A]utoregressive neural [N]etworks [FOR] [E]pidemics inference problems
+# ANNFORE: [A]utoregressive [N]eural [N]etworks [FOR] [E]pidemics inference problems
 
 This repository contains the code for our Autoregressive neural network approach to solve epidemic inference problems. Up until now there is support for the SIR compartimental model on contact graph, more complicated compartimental model can be added.
 
