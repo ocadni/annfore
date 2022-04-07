@@ -1,4 +1,4 @@
-# ANforE: [A]utoregressive neural [N]etworks [for] [E]pidemics inference problems
+# ANFORE: [A]utoregressive neural [N]etworks [FOR] [E]pidemics inference problems
 
 Autoregressive neural network approach to solve epidemic inference problems, like the patient zero problem or the inference of parameters of the propagation model. Up to now it is implemented to support SIR compartimental model. More complicated compartimental model can be added.
 ANNforE can compute the probability to each individuals to be susceptible, infected or recovered at a given time from a list of contacts and partial observations.
