@@ -1,4 +1,5 @@
-# annfore: [a]utoregressive [n]eural [n]etworks [for] [e]pidemics inference problems
+# annfore: [a]utoregressive [n]eural [n]etworks [for] [e]pidemics inference problems [![DOI](https://zenodo.org/badge/405138309.svg)](https://zenodo.org/badge/latestdoi/405138309)
+
 
 The repository contains the code for an autoregressive neural network approach to solve epidemic inference problems on contact newtorks. The patient zero problems, risk assmement or the inference of the infectivity of class of individuals are important examples.
 
